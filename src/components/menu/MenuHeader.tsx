@@ -11,7 +11,7 @@ export function MenuHeader({ tableNumber }: MenuHeaderProps) {
         <div className="flex items-center justify-between">
           <div className="flex flex-col">
             <h1 className="font-display text-2xl font-semibold text-gradient-gold">
-              La Maison D'Or
+              Sansiro
             </h1>
             <p className="text-xs text-muted-foreground font-body tracking-wider uppercase">
               Fine Dining Experience

@@ -27,9 +27,7 @@ export default function Index() {
 
           {/* Title */}
           <h1 className="font-display text-5xl md:text-7xl font-bold text-foreground mb-6 animate-fade-in-up">
-            <span className="text-gradient-gold">La Maison</span>
-            <br />
-            D'Or
+            <span className="text-gradient-gold">Sansiro</span>
           </h1>
 
           {/* Subtitle */}
@@ -105,7 +103,7 @@ export default function Index() {
       {/* Footer */}
       <footer className="border-t border-border py-6 px-4">
         <p className="text-center text-sm text-muted-foreground">
-          © 2024 La Maison D'Or · Fine Dining Experience
+          © 2024 Sansiro · Fine Dining Experience
         </p>
       </footer>
     </div>
