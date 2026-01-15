@@ -17,7 +17,7 @@ export function AdminNav() {
       {/* Logo */}
       <div className="p-6 border-b border-border">
         <h1 className="font-display text-xl font-semibold text-gradient-gold">
-          La Maison D'Or
+          Sansiro
         </h1>
         <p className="text-xs text-muted-foreground mt-1">Management System</p>
       </div>
