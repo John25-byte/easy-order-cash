@@ -30,7 +30,7 @@ export default function MenuPage() {
       <main className="container mx-auto px-4 py-6">
         {/* Category Header */}
         <div className="mb-6 animate-fade-in">
-          <h2 className="font-display text-3xl font-semibold text-foreground">
+          <h2 className="font-display text-2xl md:text-3xl font-bold text-foreground">
             {currentCategory?.name}
           </h2>
           {currentCategory?.description && (
@@ -39,12 +39,12 @@ export default function MenuPage() {
         </div>
 
         {/* Menu Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
           {filteredItems.map((item, index) => (
             <div
               key={item.id}
               className="animate-fade-in-up"
-              style={{ animationDelay: `${index * 100}ms` }}
+              style={{ animationDelay: `${index * 50}ms` }}
             >
               <MenuItemCard item={item} />
             </div>

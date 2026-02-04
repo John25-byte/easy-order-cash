@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { useOrders } from '@/context/OrderContext';
 import { cn } from '@/lib/utils';
 import { formatDistanceToNow } from 'date-fns';
+import { formatPrice } from '@/lib/currency';
 
 interface OrderCardProps {
   order: Order;
@@ -14,29 +15,29 @@ const statusConfig = {
   pending: {
     label: 'Pending',
     icon: Clock,
-    color: 'text-yellow-500',
-    bg: 'bg-yellow-500/10',
-    border: 'border-yellow-500/30',
+    color: 'text-yellow-600',
+    bg: 'bg-yellow-100',
+    border: 'border-yellow-300',
   },
   preparing: {
     label: 'Preparing',
     icon: ChefHat,
-    color: 'text-blue-500',
-    bg: 'bg-blue-500/10',
-    border: 'border-blue-500/30',
+    color: 'text-blue-600',
+    bg: 'bg-blue-100',
+    border: 'border-blue-300',
   },
   ready: {
     label: 'Ready',
     icon: Check,
-    color: 'text-green-500',
-    bg: 'bg-green-500/10',
-    border: 'border-green-500/30',
+    color: 'text-green-600',
+    bg: 'bg-green-100',
+    border: 'border-green-300',
   },
   delivered: {
     label: 'Delivered',
     icon: Truck,
     color: 'text-muted-foreground',
-    bg: 'bg-muted/50',
+    bg: 'bg-muted',
     border: 'border-muted',
   },
 };
@@ -64,7 +65,7 @@ export function OrderCard({ order, showActions = true }: OrderCardProps) {
   return (
     <div
       className={cn(
-        'bg-card rounded-xl border p-4 transition-all duration-300',
+        'bg-card rounded-xl border shadow-card p-4 transition-all duration-300 hover:shadow-elevated',
         config.border
       )}
     >
@@ -101,11 +102,11 @@ export function OrderCard({ order, showActions = true }: OrderCardProps) {
         {order.items.map((cartItem) => (
           <div key={cartItem.item.id} className="flex items-center justify-between text-sm">
             <span className="text-foreground">
-              <span className="text-primary font-medium">{cartItem.quantity}×</span>{' '}
+              <span className="text-primary font-semibold">{cartItem.quantity}×</span>{' '}
               {cartItem.item.name}
             </span>
-            <span className="text-muted-foreground">
-              ${(cartItem.item.price * cartItem.quantity).toFixed(2)}
+            <span className="text-muted-foreground font-medium">
+              {formatPrice(cartItem.item.price * cartItem.quantity)}
             </span>
           </div>
         ))}
@@ -113,8 +114,8 @@ export function OrderCard({ order, showActions = true }: OrderCardProps) {
 
       {/* Special Requests */}
       {order.specialRequests && (
-        <div className="bg-secondary/30 rounded-lg p-3 mb-4">
-          <p className="text-xs text-muted-foreground mb-1">Special Requests:</p>
+        <div className="bg-muted rounded-lg p-3 mb-4">
+          <p className="text-xs text-muted-foreground mb-1 font-medium">Special Requests:</p>
           <p className="text-sm text-foreground">{order.specialRequests}</p>
         </div>
       )}
@@ -122,12 +123,12 @@ export function OrderCard({ order, showActions = true }: OrderCardProps) {
       {/* Footer */}
       <div className="flex items-center justify-between pt-3 border-t border-border">
         <span className="font-display text-lg font-semibold text-primary">
-          ${order.total.toFixed(2)}
+          {formatPrice(order.total)}
         </span>
 
         {showActions && nextStatus && (
           <Button
-            variant="gold"
+            variant="orange"
             size="sm"
             onClick={() => updateOrderStatus(order.id, nextStatus)}
           >
