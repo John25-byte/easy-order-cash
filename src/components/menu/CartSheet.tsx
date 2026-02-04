@@ -12,6 +12,7 @@ import { useCart } from '@/context/CartContext';
 import { useOrders } from '@/context/OrderContext';
 import { useState } from 'react';
 import { toast } from 'sonner';
+import { formatPrice } from '@/lib/currency';
 
 interface CartSheetProps {
   tableNumber: string;
@@ -40,14 +41,14 @@ export function CartSheet({ tableNumber }: CartSheetProps) {
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
       <SheetTrigger asChild>
         <Button
-          variant="gold"
+          variant="orange"
           size="lg"
-          className="fixed bottom-6 right-6 z-50 shadow-elegant rounded-full h-14 px-6"
+          className="fixed bottom-6 right-6 z-50 shadow-elevated rounded-full h-14 px-6"
         >
           <ShoppingBag className="w-5 h-5 mr-2" />
-          <span className="font-semibold">${total.toFixed(2)}</span>
+          <span className="font-semibold">{formatPrice(total)}</span>
           {itemCount > 0 && (
-            <span className="ml-2 bg-background text-foreground text-xs font-bold px-2 py-0.5 rounded-full">
+            <span className="ml-2 bg-white text-primary text-xs font-bold px-2 py-0.5 rounded-full">
               {itemCount}
             </span>
           )}
@@ -56,7 +57,7 @@ export function CartSheet({ tableNumber }: CartSheetProps) {
 
       <SheetContent className="w-full sm:max-w-md bg-background border-border flex flex-col">
         <SheetHeader className="border-b border-border pb-4">
-          <SheetTitle className="font-display text-2xl text-gradient-gold">
+          <SheetTitle className="font-display text-2xl text-gradient-primary">
             Your Order
           </SheetTitle>
           <p className="text-sm text-muted-foreground">Table {tableNumber}</p>
@@ -76,7 +77,7 @@ export function CartSheet({ tableNumber }: CartSheetProps) {
               {items.map((cartItem) => (
                 <div
                   key={cartItem.item.id}
-                  className="bg-card rounded-lg p-4 border border-border/50"
+                  className="bg-card rounded-xl p-4 border border-border shadow-card"
                 >
                   <div className="flex gap-3">
                     <img
@@ -85,11 +86,11 @@ export function CartSheet({ tableNumber }: CartSheetProps) {
                       className="w-16 h-16 rounded-lg object-cover"
                     />
                     <div className="flex-1 min-w-0">
-                      <h4 className="font-display text-sm font-medium text-foreground truncate">
+                      <h4 className="font-display text-sm font-semibold text-foreground truncate">
                         {cartItem.item.name}
                       </h4>
                       <p className="text-primary font-semibold text-sm mt-0.5">
-                        ${cartItem.item.price}
+                        {formatPrice(cartItem.item.price)}
                       </p>
                     </div>
                     <Button
@@ -103,7 +104,7 @@ export function CartSheet({ tableNumber }: CartSheetProps) {
                   </div>
 
                   <div className="flex items-center justify-between mt-3">
-                    <div className="flex items-center gap-2 bg-secondary/50 rounded-lg p-1">
+                    <div className="flex items-center gap-2 bg-muted rounded-lg p-1">
                       <Button
                         variant="ghost"
                         size="icon"
@@ -125,7 +126,7 @@ export function CartSheet({ tableNumber }: CartSheetProps) {
                       </Button>
                     </div>
                     <span className="font-display font-semibold text-foreground">
-                      ${(cartItem.item.price * cartItem.quantity).toFixed(2)}
+                      {formatPrice(cartItem.item.price * cartItem.quantity)}
                     </span>
                   </div>
                 </div>
@@ -137,19 +138,19 @@ export function CartSheet({ tableNumber }: CartSheetProps) {
                 placeholder="Special requests or dietary notes..."
                 value={specialRequests}
                 onChange={(e) => setSpecialRequests(e.target.value)}
-                className="bg-secondary/50 border-border resize-none"
+                className="bg-muted border-border resize-none"
                 rows={2}
               />
 
               <div className="flex items-center justify-between py-2">
-                <span className="text-muted-foreground">Subtotal</span>
+                <span className="text-muted-foreground font-medium">Subtotal</span>
                 <span className="font-display text-xl font-semibold text-foreground">
-                  ${total.toFixed(2)}
+                  {formatPrice(total)}
                 </span>
               </div>
 
               <Button
-                variant="gold"
+                variant="orange"
                 size="xl"
                 className="w-full"
                 onClick={handlePlaceOrder}

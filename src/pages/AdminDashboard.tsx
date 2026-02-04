@@ -1,7 +1,8 @@
 import { AdminNav } from '@/components/admin/AdminNav';
 import { OrderCard } from '@/components/admin/OrderCard';
 import { useOrders } from '@/context/OrderContext';
-import { DollarSign, ShoppingBag, Clock, TrendingUp } from 'lucide-react';
+import { ShoppingBag, Clock, TrendingUp, Banknote } from 'lucide-react';
+import { formatPrice } from '@/lib/currency';
 
 export default function AdminDashboard() {
   const { orders } = useOrders();
@@ -13,27 +14,31 @@ export default function AdminDashboard() {
   const stats = [
     {
       label: 'Total Orders',
-      value: orders.length,
+      value: orders.length.toString(),
       icon: ShoppingBag,
       color: 'text-primary',
+      bg: 'bg-primary/10',
     },
     {
       label: 'Pending',
-      value: pendingOrders.length,
+      value: pendingOrders.length.toString(),
       icon: Clock,
-      color: 'text-yellow-500',
+      color: 'text-yellow-600',
+      bg: 'bg-yellow-100',
     },
     {
       label: 'Preparing',
-      value: preparingOrders.length,
+      value: preparingOrders.length.toString(),
       icon: TrendingUp,
-      color: 'text-blue-500',
+      color: 'text-blue-600',
+      bg: 'bg-blue-100',
     },
     {
       label: 'Revenue',
-      value: `$${totalRevenue.toFixed(2)}`,
-      icon: DollarSign,
-      color: 'text-green-500',
+      value: formatPrice(totalRevenue),
+      icon: Banknote,
+      color: 'text-green-600',
+      bg: 'bg-green-100',
     },
   ];
 
@@ -43,7 +48,7 @@ export default function AdminDashboard() {
 
       <main className="ml-64 p-8">
         <div className="mb-8">
-          <h1 className="font-display text-3xl font-semibold text-foreground">Dashboard</h1>
+          <h1 className="font-display text-3xl font-bold text-foreground">Dashboard</h1>
           <p className="text-muted-foreground mt-1">Welcome back to your restaurant management</p>
         </div>
 
@@ -52,13 +57,15 @@ export default function AdminDashboard() {
           {stats.map((stat) => (
             <div
               key={stat.label}
-              className="bg-card rounded-xl border border-border p-6 transition-all duration-300 hover:border-primary/30 hover:shadow-elegant"
+              className="bg-card rounded-xl border border-border p-6 transition-all duration-300 hover:shadow-elevated shadow-card"
             >
               <div className="flex items-center justify-between mb-4">
-                <stat.icon className={`w-8 h-8 ${stat.color}`} />
+                <div className={`p-3 rounded-xl ${stat.bg}`}>
+                  <stat.icon className={`w-6 h-6 ${stat.color}`} />
+                </div>
               </div>
-              <p className="text-muted-foreground text-sm">{stat.label}</p>
-              <p className="font-display text-2xl font-semibold text-foreground mt-1">
+              <p className="text-muted-foreground text-sm font-medium">{stat.label}</p>
+              <p className="font-display text-2xl font-bold text-foreground mt-1">
                 {stat.value}
               </p>
             </div>
@@ -69,7 +76,7 @@ export default function AdminDashboard() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Pending Orders */}
           <div>
-            <h2 className="font-display text-xl font-semibold text-foreground mb-4">
+            <h2 className="font-display text-xl font-bold text-foreground mb-4">
               Pending Orders
             </h2>
             <div className="space-y-4">
@@ -78,7 +85,7 @@ export default function AdminDashboard() {
                   <OrderCard key={order.id} order={order} />
                 ))
               ) : (
-                <div className="bg-card rounded-xl border border-border p-8 text-center">
+                <div className="bg-card rounded-xl border border-border p-8 text-center shadow-card">
                   <p className="text-muted-foreground">No pending orders</p>
                 </div>
               )}
@@ -87,7 +94,7 @@ export default function AdminDashboard() {
 
           {/* Preparing Orders */}
           <div>
-            <h2 className="font-display text-xl font-semibold text-foreground mb-4">
+            <h2 className="font-display text-xl font-bold text-foreground mb-4">
               Being Prepared
             </h2>
             <div className="space-y-4">
@@ -96,7 +103,7 @@ export default function AdminDashboard() {
                   <OrderCard key={order.id} order={order} />
                 ))
               ) : (
-                <div className="bg-card rounded-xl border border-border p-8 text-center">
+                <div className="bg-card rounded-xl border border-border p-8 text-center shadow-card">
                   <p className="text-muted-foreground">No orders in preparation</p>
                 </div>
               )}

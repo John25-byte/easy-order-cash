@@ -9,7 +9,7 @@ interface CategoryNavProps {
 
 export function CategoryNav({ categories, activeCategory, onCategoryChange }: CategoryNavProps) {
   return (
-    <nav className="sticky top-[73px] z-40 glass border-b border-border/50">
+    <nav className="sticky top-[73px] z-40 bg-white/95 backdrop-blur-sm border-b border-border shadow-sm">
       <div className="container mx-auto px-4">
         <div className="flex gap-2 py-3 overflow-x-auto scrollbar-hide">
           {categories.map((category) => (
@@ -17,10 +17,10 @@ export function CategoryNav({ categories, activeCategory, onCategoryChange }: Ca
               key={category.id}
               onClick={() => onCategoryChange(category.id)}
               className={cn(
-                'px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all duration-300',
+                'px-4 py-2 rounded-full text-sm font-semibold whitespace-nowrap transition-all duration-200',
                 activeCategory === category.id
-                  ? 'bg-gradient-gold text-primary-foreground shadow-gold'
-                  : 'bg-secondary/50 text-muted-foreground hover:text-foreground hover:bg-secondary'
+                  ? 'bg-gradient-primary text-primary-foreground shadow-primary'
+                  : 'bg-muted text-muted-foreground hover:text-foreground hover:bg-muted/80'
               )}
             >
               {category.name}
