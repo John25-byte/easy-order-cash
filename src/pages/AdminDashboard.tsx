@@ -1,11 +1,15 @@
-import { AdminNav } from '@/components/admin/AdminNav';
+import { AdminLayout } from '@/components/layout/AdminLayout';
 import { OrderCard } from '@/components/admin/OrderCard';
 import { useOrders } from '@/context/OrderContext';
+import { useMenu } from '@/context/MenuContext';
+import { Link } from 'react-router-dom';
 import { ShoppingBag, Clock, TrendingUp, Banknote } from 'lucide-react';
 import { formatPrice } from '@/lib/currency';
+import { Button } from '@/components/ui/button';
 
 export default function AdminDashboard() {
   const { orders } = useOrders();
+  const { menuItems } = useMenu();
 
   const pendingOrders = orders.filter((o) => o.status === 'pending');
   const preparingOrders = orders.filter((o) => o.status === 'preparing');
@@ -43,17 +47,25 @@ export default function AdminDashboard() {
   ];
 
   return (
-    <div className="min-h-screen bg-background">
-      <AdminNav />
-
-      <main className="ml-64 p-8">
-        <div className="mb-8">
-          <h1 className="font-display text-3xl font-bold text-foreground">Dashboard</h1>
-          <p className="text-muted-foreground mt-1">Welcome back to your restaurant management</p>
+    <AdminLayout>
+      <div className="space-y-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div>
+            <h1 className="font-display text-3xl font-bold text-foreground">Dashboard</h1>
+            <p className="text-muted-foreground mt-1">Welcome back to your restaurant management</p>
+          </div>
+          <div className="flex gap-2">
+            <Link to="/admin/menu">
+              <Button variant="outline">Manage Menu</Button>
+            </Link>
+            <Link to="/admin/orders">
+              <Button variant="orange">View All Orders</Button>
+            </Link>
+          </div>
         </div>
 
         {/* Stats Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {stats.map((stat) => (
             <div
               key={stat.label}
@@ -110,7 +122,7 @@ export default function AdminDashboard() {
             </div>
           </div>
         </div>
-      </main>
-    </div>
+      </div>
+    </AdminLayout>
   );
 }

@@ -4,16 +4,17 @@ import { MenuHeader } from '@/components/menu/MenuHeader';
 import { CategoryNav } from '@/components/menu/CategoryNav';
 import { MenuItemCard } from '@/components/menu/MenuItemCard';
 import { CartSheet } from '@/components/menu/CartSheet';
-import { categories, menuItems } from '@/data/menuData';
+import { useMenu } from '@/context/MenuContext';
 
 export default function MenuPage() {
   const [searchParams] = useSearchParams();
   const tableNumber = searchParams.get('table') || '1';
+  const { menuItems, categories } = useMenu();
   const [activeCategory, setActiveCategory] = useState(categories[0].id);
 
   const filteredItems = useMemo(
-    () => menuItems.filter((item) => item.category === activeCategory),
-    [activeCategory]
+    () => menuItems.filter((item) => item.category === activeCategory && item.available),
+    [activeCategory, menuItems]
   );
 
   const currentCategory = categories.find((c) => c.id === activeCategory);
