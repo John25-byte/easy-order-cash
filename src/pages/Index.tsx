@@ -32,7 +32,7 @@ export default function Index() {
 
           {/* Title */}
           <h1 className="font-display text-4xl md:text-6xl font-bold text-foreground mb-4 animate-fade-in-up">
-            <span className="text-gradient-primary">Easy Order</span>
+            <span className="text-gradient-primary">FLAVABITE</span>
             <span className="block text-2xl md:text-3xl font-medium text-muted-foreground mt-2">
               Cash & Digital
             </span>
@@ -111,7 +111,7 @@ export default function Index() {
       {/* Footer */}
       <footer className="border-t border-border py-6 px-4 bg-card">
         <p className="text-center text-sm text-muted-foreground font-medium">
-          © 2024 Easy Order Cash · Fast & Convenient Dining
+          © 2024 FLAVABITE · Fast & Convenient Dining
         </p>
       </footer>
     </div>
