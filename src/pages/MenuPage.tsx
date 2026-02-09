@@ -4,6 +4,7 @@ import { MenuHeader } from '@/components/menu/MenuHeader';
 import { CategoryNav } from '@/components/menu/CategoryNav';
 import { MenuItemCard } from '@/components/menu/MenuItemCard';
 import { CartSheet } from '@/components/menu/CartSheet';
+import { OrderTracker } from '@/components/menu/OrderTracker';
 import { useMenu } from '@/context/MenuContext';
 
 export default function MenuPage() {
@@ -59,6 +60,7 @@ export default function MenuPage() {
         )}
       </main>
 
+      <OrderTracker tableNumber={tableNumber} />
       <CartSheet tableNumber={tableNumber} />
     </div>
   );

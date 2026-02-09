@@ -29,6 +29,8 @@ export interface Order {
   total: number;
   createdAt: Date;
   specialRequests?: string;
+  paymentStatus?: 'none' | 'requested' | 'paid';
+  paymentMethod?: string;
 }
 
 export interface Table {
