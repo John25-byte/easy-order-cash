@@ -11,5 +11,11 @@ export default defineConfig(({ mode }) => ({
     hmr: { overlay: false },
   },
   plugins: [react(), mode === "development" && componentTagger()].filter(Boolean),
-  resolve: { alias: { "@": path.resolve(__dirname, "./src") } },
+  resolve: {
+    alias: { "@": path.resolve(__dirname, "./src") },
+    dedupe: ["react", "react-dom", "react/jsx-runtime", "@tanstack/react-query"],
+  },
+  optimizeDeps: {
+    include: ["react", "react-dom", "@tanstack/react-query"],
+  },
 }));
