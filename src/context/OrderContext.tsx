@@ -5,6 +5,7 @@ interface OrderContextType {
   orders: Order[];
   addOrder: (tableNumber: string, items: CartItem[], total: number, specialRequests?: string) => Order;
   updateOrderStatus: (orderId: string, status: Order['status']) => void;
+  updatePaymentStatus: (orderId: string, paymentStatus: 'none' | 'requested' | 'paid') => void;
   getOrdersByStatus: (status: Order['status']) => Order[];
   getOrdersByTable: (tableNumber: string) => Order[];
 }
@@ -28,6 +29,7 @@ export function OrderProvider({ children }: { children: React.ReactNode }) {
       total,
       createdAt: new Date(),
       specialRequests,
+      paymentStatus: 'none',
     };
     setOrders((prev) => [newOrder, ...prev]);
     return newOrder;
@@ -37,6 +39,14 @@ export function OrderProvider({ children }: { children: React.ReactNode }) {
     setOrders((prev) =>
       prev.map((order) =>
         order.id === orderId ? { ...order, status } : order
+      )
+    );
+  }, []);
+
+  const updatePaymentStatus = useCallback((orderId: string, paymentStatus: 'none' | 'requested' | 'paid') => {
+    setOrders((prev) =>
+      prev.map((order) =>
+        order.id === orderId ? { ...order, paymentStatus } : order
       )
     );
   }, []);
@@ -55,6 +65,7 @@ export function OrderProvider({ children }: { children: React.ReactNode }) {
         orders,
         addOrder,
         updateOrderStatus,
+        updatePaymentStatus,
         getOrdersByStatus,
         getOrdersByTable,
       }}

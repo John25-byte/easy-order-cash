@@ -1,10 +1,12 @@
-import { Clock, ChefHat, Check, Truck } from 'lucide-react';
+import { Clock, ChefHat, Check, Truck, CreditCard, CheckCircle2 } from 'lucide-react';
 import { Order } from '@/types/menu';
 import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import { useOrders } from '@/context/OrderContext';
 import { cn } from '@/lib/utils';
 import { formatDistanceToNow } from 'date-fns';
 import { formatPrice } from '@/lib/currency';
+import { toast } from 'sonner';
 
 interface OrderCardProps {
   order: Order;
@@ -43,7 +45,7 @@ const statusConfig = {
 };
 
 export function OrderCard({ order, showActions = true }: OrderCardProps) {
-  const { updateOrderStatus } = useOrders();
+  const { updateOrderStatus, updatePaymentStatus } = useOrders();
   const config = statusConfig[order.status];
   const StatusIcon = config.icon;
 
@@ -126,15 +128,43 @@ export function OrderCard({ order, showActions = true }: OrderCardProps) {
           {formatPrice(order.total)}
         </span>
 
-        {showActions && nextStatus && (
-          <Button
-            variant="orange"
-            size="sm"
-            onClick={() => updateOrderStatus(order.id, nextStatus)}
-          >
-            Mark as {statusConfig[nextStatus].label}
-          </Button>
-        )}
+        <div className="flex items-center gap-2">
+          {/* Payment action */}
+          {showActions && order.paymentStatus !== 'paid' && (
+            <Button
+              variant={order.paymentStatus === 'requested' ? 'outline' : 'elegant'}
+              size="sm"
+              onClick={() => {
+                updatePaymentStatus(order.id, 'requested');
+                toast.success('Payment requested', {
+                  description: `Payment request sent to Table ${order.tableNumber}`,
+                });
+              }}
+              disabled={order.paymentStatus === 'requested'}
+            >
+              <CreditCard className="w-4 h-4 mr-1" />
+              {order.paymentStatus === 'requested' ? 'Requested' : 'Request Payment'}
+            </Button>
+          )}
+
+          {order.paymentStatus === 'paid' && (
+            <Badge className="bg-green-100 text-green-700 gap-1">
+              <CheckCircle2 className="w-3 h-3" />
+              Paid
+            </Badge>
+          )}
+
+          {/* Status action */}
+          {showActions && nextStatus && (
+            <Button
+              variant="orange"
+              size="sm"
+              onClick={() => updateOrderStatus(order.id, nextStatus)}
+            >
+              Mark as {statusConfig[nextStatus].label}
+            </Button>
+          )}
+        </div>
       </div>
     </div>
   );
